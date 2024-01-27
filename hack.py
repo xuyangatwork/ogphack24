@@ -6,10 +6,14 @@ from io import BytesIO
 from PIL import Image
 
 def main():
-    st.title("AIID (beta) MOM")
+    st.title("This is a Work-In-Progress Proof-of-Concept Hackathon Project for OGP's Hack for Public Good")
+    st.header("AI Injury Incident Descriptor (AIID) - POC")
     
     if "image_key" not in st.session_state:
         st.session_state.image_key = ""
+
+    if "image_url" not in st.session_state:
+        st.session_state.image_url = ""
 
     getS3FileListDisplay()
 
@@ -31,15 +35,17 @@ def getS3Image():
     # Connect to S3
     s3 = boto3.client('s3', aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
     st.subheader("IMAGE OF INJURY (Attachment)")
-    if st.session_state.image_key:
+    if st.session_state.image_url:
         try:
+            image_key = st.session_state.image_url.rsplit('/IMAGES/', 1)[-1]
             # Download image from S3
-            response = s3.get_object(Bucket=bucket_name, Key=st.session_state.image_key)
+            #st.write(image_key)
+            response = s3.get_object(Bucket=bucket_name, Key="IMAGES/"+image_key)
             image_data = response['Body'].read()
 
             # Display the image using PIL
             image = Image.open(BytesIO(image_data))
-            st.image(image, caption="Image", use_column_width=True)
+            st.image(image, caption=image_key, width=400, use_column_width=False)
 
         except NoCredentialsError:
             st.error("AWS credentials not available or incorrect. Please set your AWS access key and secret key.")
@@ -131,8 +137,8 @@ def dispay_personal_particulars_bot(txt):
                 for sub_key, sub_value in value.items():
                     st.markdown(f"**{sub_key}:**")
                     st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;{sub_value}")
-                    if sub_key == "Image of injury":
-                        st.session_state.image_key = sub_value
+                    if sub_key == "Image of Injury":
+                        st.session_state.image_url = sub_value
             elif isinstance(value, list):
                 # Display list elements
                 for item in value:
@@ -141,6 +147,8 @@ def dispay_personal_particulars_bot(txt):
                         for sub_key, sub_value in item.items():
                             st.markdown(f"**{sub_key}:**")
                             st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;{sub_value}")
+                            if sub_key == "Image of Injury":
+                                st.session_state.image_url = sub_value
                     else:
                         st.text(f"{item}")
             else:
