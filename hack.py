@@ -96,7 +96,7 @@ def getS3FileListDisplay():
 
         if file_names:
             # Display file list in a dropdown
-            selected_file = st.selectbox("", file_names)
+            selected_file = st.selectbox("", file_names[1:])
 
             if st.button("View Incident Details"):
                 # Display the selected file content on another page
