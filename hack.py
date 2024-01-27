@@ -6,8 +6,8 @@ from io import BytesIO
 from PIL import Image
 
 def main():
-    st.title("This is a Work-In-Progress Proof-of-Concept Hackathon Project for OGP's Hack for Public Good")
-    st.header("AI Injury Incident Descriptor (AIID) - POC")
+    st.title("AI Injury Incident Descriptor (AIID) - POC")
+    st.header("This is a Work-In-Progress Proof-of-Concept Hackathon Project for OGP's Hack for Public Good 2024")
     
     if "image_key" not in st.session_state:
         st.session_state.image_key = ""
