@@ -139,6 +139,8 @@ def dispay_personal_particulars_bot(txt):
                     st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;{sub_value}")
                     if sub_key == "Image of Injury":
                         st.session_state.image_url = sub_value
+                    if sub_key == "image of injury":
+                        st.session_state.image_url = sub_value
             elif isinstance(value, list):
                 # Display list elements
                 for item in value:
@@ -148,6 +150,8 @@ def dispay_personal_particulars_bot(txt):
                             st.markdown(f"**{sub_key}:**")
                             st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;{sub_value}")
                             if sub_key == "Image of Injury":
+                                st.session_state.image_url = sub_value
+                            if sub_key == "image of injury":
                                 st.session_state.image_url = sub_value
                     else:
                         st.text(f"{item}")
